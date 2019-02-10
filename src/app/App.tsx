@@ -8,7 +8,10 @@ export interface IAppProps extends RouteComponentProps {
 }
 
 class App extends React.Component<IAppProps> {
-  public render() {
+    componentDidMount(): void {
+    }
+
+    public render() {
     return (
       <div className="App">
         <header className="App-header">

@@ -18,7 +18,10 @@
     "importHelpers": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "types": [
+      "index.d.ts"
+    ]
   },
   "exclude": [
     "node_modules",

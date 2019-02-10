@@ -1,10 +1,12 @@
-import ApiManager from "../libs/ApiManager";
 import Item from "../data/models/Item";
+import BaseApi from "./BaseApi";
+import {HttpMethod} from "../global/classes/Enums";
 
-class ItemsApi {
+class ItemsApi extends BaseApi {
+    static resourceName = "items";
+
     static async getItems() {
-        return ApiManager.get('/items')
-            .then(result => result.data as Item[])
+        return this.sendApiRequest<Item[]>(HttpMethod.GET, ItemsApi.resourceName)
             .catch(error => {
                 console.log(error);
                 return [] as Item[];
@@ -12,23 +14,19 @@ class ItemsApi {
     }
 
     static async getItem(id: string) {
-        return ApiManager.get(`/items/${id}`)
-            .then(result => result.data as Item)
+        return this.sendApiRequest<Item>(HttpMethod.GET, ItemsApi.resourceName, undefined, id);
     }
 
     static async addItem(item: Item) {
-        return ApiManager.post('/items', item)
-            .then(result => result.data as Item)
+        return this.sendApiRequest(HttpMethod.POST, ItemsApi.resourceName, item);
     }
 
     static async updateItem(id: string, item: Partial<Item>) {
-        return ApiManager.put(`/items/${id}`, item)
-            .then(result => result.data as Item)
+        return this.sendApiRequestWithResult<Partial<Item>, Item>(HttpMethod.PUT, ItemsApi.resourceName, item, id);
     }
 
     static async removeItem(id: string) {
-        return ApiManager.delete(`/items/${id}`)
-            .then(result => id)
+        return this.sendApiRequest<null>(HttpMethod.DELETE, ItemsApi.resourceName, undefined, id);
     }
 }
 

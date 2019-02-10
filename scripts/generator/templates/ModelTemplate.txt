@@ -1,0 +1,5 @@
+class {{ENTITY_NAME_TITLE}} {
+    id: string;
+}
+
+export default {{ENTITY_NAME_TITLE}};

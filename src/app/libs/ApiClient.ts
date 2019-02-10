@@ -1,14 +1,19 @@
 import axios, { AxiosError } from 'axios';
 import config from '../global/config';
 
-const ApiManager = axios.create({
-    baseURL: config.urls.api,
-    timeout: config.apiConfig.timeout
+const ApiClient = axios.create({
+    baseURL: config.api.baseUrl,
+    timeout: config.api.timeout
 });
 
-ApiManager.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-ApiManager.interceptors.response.use(
+ApiClient.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+ApiClient.interceptors.response.use(
     response => {
+        /** Add global response handling here.
+         *  By default, we enable redirection
+         *  via redirection HTTP response codes.
+         * **/
+
         switch (response.status) {
             case 300:
             case 301:
@@ -25,7 +30,7 @@ ApiManager.interceptors.response.use(
         return response;
     },
     (error: AxiosError) => {
-        // MARK: Add global error handling
+        /** Add global error handling here **/
 
         if (error.response) {
             switch (error.response.status) {
@@ -50,4 +55,4 @@ ApiManager.interceptors.response.use(
     }
 );
 
-export default ApiManager;
+export default ApiClient;

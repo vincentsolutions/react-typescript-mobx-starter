@@ -2,12 +2,11 @@ import {action, computed, observable, runInAction} from "mobx";
 import Item from "../models/Item";
 import {ApiError} from "../models/Errors";
 import ItemsApi from "../../api/ItemsApi";
+import BaseStore from "./BaseStore";
 
-export class ItemStore {
+export class ItemStore extends BaseStore {
 
     // MARK: Observable Properties
-    @observable public isLoading: boolean = true;
-    @observable public apiErrors: ApiError[] = [];
     @observable public items: Item[] = [];
 
     // MARK: Actions
@@ -15,7 +14,6 @@ export class ItemStore {
     loadItems = async () => {
         this.isLoading = true;
 
-        // TODO: Fetch items here
         let items = await ItemsApi.getItems();
 
         runInAction(() => {
@@ -112,26 +110,6 @@ export class ItemStore {
     @computed
     get itemsCount() {
         return this.items.length;
-    }
-
-    // MARK: Error Handling
-    @action
-    resetApiErrors = () => {
-        if (this.hasErrored) {
-            this.apiErrors = [];
-        }
-    };
-
-    @computed
-    get hasErrored() {
-        return this.apiErrors.length > 0;
-    }
-
-    saveError = (...errors: ApiError[]) => {
-        return runInAction(() => {
-            this.apiErrors.push(...errors);
-            this.isLoading = false;
-        })
     }
 }
 
