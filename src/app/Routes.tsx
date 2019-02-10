@@ -11,7 +11,8 @@ const Routes: React.FunctionComponent<IRoutesProps> = props => (
     <Switch>
         {
             /** Add as many routes as you want here.
-                Use the commented elements as examples.
+                Use the commented elements bellow as
+                examples for simple and complex cases.
             **/
         }
          {/*<AppliedRoute path={"/items/:id"} Component={ItemContainer} childProps={props.childProps} />*/}
